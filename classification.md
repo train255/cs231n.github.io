@@ -25,12 +25,12 @@ This is an introductory lecture designed to introduce people from outside of Com
 
 <div class="fig figcenter fighighlight">
   <img src="/assets/classify.png">
-  <div class="figcaption">The task in Image Classification is to predict a single label (or a distribution over labels as shown here to indicate our confidence) for a given image. Images are 3-dimensional arrays of integers from 0 to 255, of size Width x Height x 3. The 3 represents the three color channels Red, Green, Blue.</div>
+  <div class="figcaption">Nhiệm vụ của Image Classification là dự đoán một nhãn (hoặc như ở đây chúng ta hiển thị tỷ lệ phần trăm các nhãn) cho một bức ảnh. Ảnh là một mảng 3 chiều các số nguyên từ 0 đến 255 có kích thước là Width x Height x 3. Số 3 ở đây đại diện cho ba màu Red, Green, Blue.</div>
 </div>
 
-**Challenges**. Since this task of recognizing a visual concept (e.g. cat) is relatively trivial for a human to perform, it is worth considering the challenges involved from the perspective of a Computer Vision algorithm. As we present (an inexhaustive) list of challenges below, keep in mind the raw representation of images as a 3-D array of brightness values:
+**Challenges**. Việc nhận dạng hình ảnh (chẳng hạn như ảnh mèo) đối với con người là một điều tầm thường, nhưng nó là thách thức trên quan điểm của một thuật toán Computer Vision. Khi chúng tôi trình bày danh sách các thách thức dưới đây, hãy nhớ rằng sự đại diện thô của hình ảnh giống như một mảng 3 chiều của các giá trị độ sáng:
 
-- **Viewpoint variation**. A single instance of an object can be oriented in many ways with respect to the camera.
+- **Viewpoint variation**. Một thể hiện của một đối tượng có thể được chụp từ nhiều góc nhìn khác nhau của máy ảnh.
 - **Scale variation**. Visual classes often exhibit variation in their size (size in the real world, not only in terms of their extent in the image).
 - **Deformation**. Many objects of interest are not rigid bodies and can be deformed in extreme ways.
 - **Occlusion**. The objects of interest can be occluded. Sometimes only a small portion of an object (as little as few pixels) could be visible.
