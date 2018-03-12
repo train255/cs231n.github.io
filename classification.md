@@ -31,12 +31,12 @@ This is an introductory lecture designed to introduce people from outside of Com
 **Challenges**. Việc nhận dạng hình ảnh (chẳng hạn như ảnh mèo) đối với con người là một điều tầm thường, nhưng nó là thách thức trên quan điểm của một thuật toán Computer Vision. Khi chúng tôi trình bày danh sách các thách thức dưới đây, hãy nhớ rằng sự đại diện thô của hình ảnh giống như một mảng 3 chiều của các giá trị độ sáng:
 
 - **Viewpoint variation**. Một thể hiện của một đối tượng có thể được chụp từ nhiều góc nhìn khác nhau của máy ảnh.
-- **Scale variation**. Visual classes often exhibit variation in their size (size in the real world, not only in terms of their extent in the image).
-- **Deformation**. Many objects of interest are not rigid bodies and can be deformed in extreme ways.
-- **Occlusion**. The objects of interest can be occluded. Sometimes only a small portion of an object (as little as few pixels) could be visible.
-- **Illumination conditions**. The effects of illumination are drastic on the pixel level.
-- **Background clutter**. The objects of interest may *blend* into their environment, making them hard to identify.
-- **Intra-class variation**. The classes of interest can often be relatively broad, such as *chair*. There are many different types of these objects, each with their own appearance.
+- **Scale variation**. Kích thước của hình ảnh cũng có sự thay đổi.
+- **Deformation**. Nhiều đối tượng không phải là một cơ thể cứng nhắc mà nó có thể bị biến dạng.
+- **Occlusion**. Các đối tượng có thể bị che khuất. Đôi khi chỉ nhìn thấy một phần nhỏ của đối tượng (một vài pixel).
+- **Illumination conditions**. Ảnh hưởng của độ sáng tác động lên các giá trị pixel.
+- **Background clutter**. Các đối tượng có thể bị trộn lẫn vào môi trường xung quanh làm cho chúng khó xác định.
+- **Intra-class variation**. Các nhóm quan tâm có thể tương đối rộng, chẳng hạn như nhận dạng *ghế*. Có rất nhiều loại ghế và mỗi loại ghế lại có hình dạng khác nhau.
 
 A good image classification model must be invariant to the cross product of all these variations, while simultaneously retaining sensitivity to the inter-class variations.
 
