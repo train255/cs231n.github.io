@@ -31,12 +31,12 @@ This is an introductory lecture designed to introduce people from outside of Com
 **Challenges**. Việc nhận dạng hình ảnh (chẳng hạn như ảnh mèo) đối với con người là một điều tầm thường, nhưng nó là thách thức trên quan điểm của một thuật toán Computer Vision. Khi chúng tôi trình bày danh sách các thách thức dưới đây, hãy nhớ rằng sự đại diện thô của hình ảnh giống như một mảng 3 chiều của các giá trị độ sáng:
 
 - **Viewpoint variation**. Một thể hiện của một đối tượng có thể được chụp từ nhiều góc nhìn khác nhau của máy ảnh.
-- **Scale variation**. Kích thước của hình ảnh cũng có sự thay đổi.
+- **Scale variation**. Các nhóm (class) hình ảnh thường có sự khác biệt về kích cỡ.
 - **Deformation**. Nhiều đối tượng không phải là một cơ thể cứng nhắc mà nó có thể bị biến dạng.
 - **Occlusion**. Các đối tượng có thể bị che khuất. Đôi khi chỉ nhìn thấy một phần nhỏ của đối tượng (một vài pixel).
 - **Illumination conditions**. Ảnh hưởng của độ sáng tác động lên các giá trị pixel.
 - **Background clutter**. Các đối tượng có thể bị trộn lẫn vào môi trường xung quanh làm cho chúng khó xác định.
-- **Intra-class variation**. Các nhóm quan tâm có thể tương đối rộng, chẳng hạn như nhận dạng *ghế*. Có rất nhiều loại ghế và mỗi loại ghế lại có hình dạng khác nhau.
+- **Intra-class variation**. Các nhóm hình ảnh có thể tương đối rộng, chẳng hạn như nhận dạng *ghế*. Có rất nhiều loại ghế và mỗi loại ghế lại có hình dạng khác nhau.
 
 A good image classification model must be invariant to the cross product of all these variations, while simultaneously retaining sensitivity to the inter-class variations.
 
