@@ -61,13 +61,13 @@ Một model phân loại hình ảnh tốt phải không bị thay đổi với 
 <a name='nn'></a>
 
 ### Nearest Neighbor Classifier
-Cách tiếp cận đầu tiên chúng ta sẽ tìm hiểu về **Nearest Neighbor Classifier**. Classifier này không liên quan đến Convolutional Neural Networks và rất hiếm khi được sử dụng trong thực tế, nhưng nó cho phép chúng ta có cái nhìn cơ bản về cách tiếp cận để giải quyết bài toán phân loại hình ảnh. 
+Cách tiếp cận đầu tiên chúng ta sẽ tìm hiểu về **Nearest Neighbor Classifier**. Classifier này không liên quan đến Convolutional Neural Networks và rất hiếm khi được sử dụng trong thực tế, nhưng nó cho phép chúng ta có cái nhìn cơ bản về cách giải quyết bài toán phân loại hình ảnh. 
 
-**Example image classification dataset: CIFAR-10.** One popular toy image classification dataset is the <a href="http://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10 dataset</a>. This dataset consists of 60,000 tiny images that are 32 pixels high and wide. Each image is labeled with one of 10 classes (for example *"airplane, automobile, bird, etc"*). These 60,000 images are partitioned into a training set of 50,000 images and a test set of 10,000 images. In the image below you can see 10 random example images from each one of the 10 classes:
+**Example image classification dataset: CIFAR-10.** Một bộ dữ liệu phân loại ảnh phổ biến đó là <a href="http://www.cs.toronto.edu/~kriz/cifar.html">bộ dữ liệu CIFAR-10</a>. Bộ dữ liệu này bao gồm 60,000 hình ảnh nhỏ có kích thước 32x32 pixel. Mỗi ảnh được gán một nhãn trong số 10 nhãn (ví dụ *"airplane, automobile, bird, etc"*). 60,000 ảnh này được chia thành 2 loại bao gồm 50,000 hình ảnh cho tập huấn luyện 10,000 hình ảnh cho tập thử nghiệm. Như trong ảnh dưới đây bạn có thể thấy 10 ảnh ví dụ ngẫu nhiên từ mỗi một nhóm trong 10 nhóm:
 
 <div class="fig figcenter fighighlight">
   <img src="/assets/nn.jpg">
-  <div class="figcaption">Left: Example images from the <a href="http://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10 dataset</a>. Right: first column shows a few test images and next to each we show the top 10 nearest neighbors in the training set according to pixel-wise difference.</div>
+  <div class="figcaption">Trái: Các ảnh ví dụ từ <a href="http://www.cs.toronto.edu/~kriz/cifar.html">bộ dữ liệu CIFAR-10</a>. Phải: cột đầu tiên hiển thị một vài ảnh thử nghiệm và các cột tiếp theo là 10 ảnh hàng xóm gần nhất (nearest neighbors) trong tập huấn luyện dựa theo sự khác biệt về pixel.</div>
 </div>
 
 Suppose now that we are given the CIFAR-10 training set of 50,000 images (5,000 images for every one of the labels), and we wish to label the remaining 10,000. The nearest neighbor classifier will take a test image, compare it to every single one of the training images, and predict the label of the closest training image. In the image above and on the right you can see an example result of such a procedure for 10 example test images. Notice that in only about 3 out of 10 examples an image of the same class is retrieved, while in the other 7 examples this is not the case. For example, in the 8th row the nearest training image to the horse head is a red car, presumably due to the strong black background. As a result, this image of a horse would in this case be mislabeled as a car.
