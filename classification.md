@@ -45,7 +45,7 @@ Một model phân loại hình ảnh tốt phải không bị thay đổi với 
   <div class="figcaption"></div>
 </div>
 
-**Data-driven approach**. Làm sao có thể viết một thuật toán phân loại hình ảnh thành các nhóm khác nhau? Nó không giống như những thuật toán khác, chẳng hạn như, sắp xếp danh sách các chữ số. Do đó thay vì cố gắng phân loại nhóm trực tiếp trong code thay vào đó chúng ta sẽ tiếp cận theo cách sau: chúng ta sẽ cung cấp cho máy tính nhiều ví dụ cho mỗi nhóm và chúng ta sẽ phát triển những thuật toán học trên những ví dụ này để tìm hiểu sự xuất hiện của các hình ảnh trong mỗi nhóm. Cách tiếp cận này gọi là *phương pháp tiếp cận dữ liệu* (data-driven approach), vì nó dựa vào sự tích lũy đầu tiên trên *tập dữ liệu huấn luyện (training dataset)* của các ảnh đã được gán nhãn. Dưới đây là ví dụ về bộ dữ liệu huấn luyện:
+**Data-driven approach**. Làm sao có thể viết một thuật toán phân loại hình ảnh thành các nhóm khác nhau? Không giống như việc chúng ta viết những thuật toán khác, chẳng hạn như, thuật toán sắp xếp danh sách các chữ số, nó không rõ ràng để chúng ta có thể viết một thuật toán xác định mèo trong hình ảnh. Do đó thay vì cố gắng phân loại hình ảnh trực tiếp trong code chúng ta sẽ tiếp cận theo cách sau: chúng ta sẽ cung cấp cho máy tính nhiều ví dụ cho mỗi nhóm và chúng ta sẽ phát triển những thuật toán học trên những ví dụ này để tìm hiểu sự xuất hiện của các hình ảnh trong mỗi nhóm. Cách tiếp cận này gọi là *phương pháp tiếp cận dữ liệu* (data-driven approach), vì nó dựa vào sự tích lũy đầu tiên trên *tập dữ liệu huấn luyện (training dataset)* của các ảnh đã được gán nhãn. Dưới đây là ví dụ về bộ dữ liệu huấn luyện:
 
 <div class="fig figcenter fighighlight">
   <img src="/assets/trainset.jpg">
@@ -61,7 +61,7 @@ Một model phân loại hình ảnh tốt phải không bị thay đổi với 
 <a name='nn'></a>
 
 ### Nearest Neighbor Classifier
-As our first approach, we will develop what we call a **Nearest Neighbor Classifier**. This classifier has nothing to do with Convolutional Neural Networks and it is very rarely used in practice, but it will allow us to get an idea about the basic approach to an image classification problem. 
+Cách tiếp cận đầu tiên chúng ta sẽ tìm hiểu về **Nearest Neighbor Classifier**. Classifier này không liên quan đến Convolutional Neural Networks và rất hiếm khi được sử dụng trong thực tế, nhưng nó cho phép chúng ta có cái nhìn cơ bản về cách tiếp cận để giải quyết bài toán phân loại hình ảnh. 
 
 **Example image classification dataset: CIFAR-10.** One popular toy image classification dataset is the <a href="http://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-10 dataset</a>. This dataset consists of 60,000 tiny images that are 32 pixels high and wide. Each image is labeled with one of 10 classes (for example *"airplane, automobile, bird, etc"*). These 60,000 images are partitioned into a training set of 50,000 images and a test set of 10,000 images. In the image below you can see 10 random example images from each one of the 10 classes:
 
