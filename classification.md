@@ -4,7 +4,7 @@ mathjax: true
 permalink: /classification/
 ---
 
-This is an introductory lecture designed to introduce people from outside of Computer Vision to the Image Classification problem, and the data-driven approach. The Table of Contents:
+Bài giảng này nhằm giới thiệu về vấn đề phân loại hình ảnh (Image Classification) và phương pháp tiếp cận dữ liệu (data-driven approach). Mục lục:
 
 - [Intro to Image Classification, data-driven approach, pipeline](#intro)
 - [Nearest Neighbor Classifier](#nn)
@@ -38,25 +38,25 @@ This is an introductory lecture designed to introduce people from outside of Com
 - **Background clutter**. Các đối tượng có thể bị trộn lẫn vào môi trường xung quanh làm cho chúng khó xác định.
 - **Intra-class variation**. Các nhóm hình ảnh có thể tương đối rộng, chẳng hạn như nhận dạng *ghế*. Có rất nhiều loại ghế và mỗi loại ghế lại có hình dạng khác nhau.
 
-A good image classification model must be invariant to the cross product of all these variations, while simultaneously retaining sensitivity to the inter-class variations.
+Một model phân loại hình ảnh tốt phải không bị thay đổi với các biến thể nói trên, nhưng vẫn phải giữ được độ nhạy với các ảnh bình thường không thuộc các biến thể nói trên [inter-class variation](http://journals.plos.org/plosone/article/figure/image?size=medium&id=10.1371/journal.pone.0099212.g001).
 
 <div class="fig figcenter fighighlight">
   <img src="/assets/challenges.jpeg">
   <div class="figcaption"></div>
 </div>
 
-**Data-driven approach**. How might we go about writing an algorithm that can classify images into distinct categories? Unlike writing an algorithm for, for example, sorting a list of numbers, it is not obvious how one might write an algorithm for identifying cats in images. Therefore, instead of trying to specify what every one of the categories of interest look like directly in code, the approach that we will take is not unlike one you would take with a child: we're going to provide the computer with many examples of each class and then develop learning algorithms that look at these examples and learn about the visual appearance of each class. This approach is referred to as a *data-driven approach*, since it relies on first accumulating a *training dataset* of labeled images. Here is an example of what such a dataset might look like:
+**Data-driven approach**. Làm sao có thể viết một thuật toán phân loại hình ảnh thành các nhóm khác nhau? Nó không giống như những thuật toán khác, chẳng hạn như, sắp xếp danh sách các chữ số. Do đó thay vì cố gắng phân loại nhóm trực tiếp trong code thay vào đó chúng ta sẽ tiếp cận theo cách sau: chúng ta sẽ cung cấp cho máy tính nhiều ví dụ cho mỗi nhóm và chúng ta sẽ phát triển những thuật toán học trên những ví dụ này để tìm hiểu sự xuất hiện của các hình ảnh trong mỗi nhóm. Cách tiếp cận này gọi là *phương pháp tiếp cận dữ liệu* (data-driven approach), vì nó dựa vào sự tích lũy đầu tiên trên *tập dữ liệu huấn luyện (training dataset)* của các ảnh đã được gán nhãn. Dưới đây là ví dụ về bộ dữ liệu huấn luyện:
 
 <div class="fig figcenter fighighlight">
   <img src="/assets/trainset.jpg">
-  <div class="figcaption">An example training set for four visual categories. In practice we may have thousands of categories and hundreds of thousands of images for each category.</div>
+  <div class="figcaption">Một ví dụ về tập huấn luyện cho bốn loại hình ảnh. Trong thực tế chúng ta có thể có hàng nghìn loại hình ảnh và hàng trăm nghìn hình ảnh cho mỗi loại.</div>
 </div>
 
-**The image classification pipeline**. We've seen that the task in Image Classification is to take an array of pixels that represents a single image and assign a label to it. Our complete pipeline can be formalized as follows:
+**The image classification pipeline**. Chúng ta đã biết nhiệm vụ của phân loại hình ảnh là chúng ta sẽ tạo ra một ma trận của các pixel để đại diện cho một bức ảnh và gán nhãn cho nó một nhãn. Quá trình của công việc này sẽ được mô tả như dưới đây:
 
-- **Input:** Our input consists of a set of *N* images, each labeled with one of *K* different classes. We refer to this data as the *training set*.
-- **Learning:** Our task is to use the training set to learn what every one of the classes looks like. We refer to this step as *training a classifier*, or *learning a model*.
-- **Evaluation:** In the end, we evaluate the quality of the classifier by asking it to predict labels for a new set of images that it has never seen before. We will then compare the true labels of these images to the ones predicted by the classifier. Intuitively, we're hoping that a lot of the predictions match up with the true answers  (which we call the *ground truth*).
+- **Input:** Đầu vào của chúng ta bao gồm một tập *N* các hình ảnh, và mỗi hình ảnh được gán một nhãn trong tập *K* các nhãn khác nhau. Chúng ta gọi tập dữ liệu này là *tập huấn luyện (training set)*.
+- **Learning:** Nhiệm vụ của chúng ta là sử dụng tập huấn luyện để học xem mỗi hình ảnh thuộc một nhãn sẽ trông như thế nào. Chúng ta gọi bước này là *đào tạo một trình phân loại (training a classifier)*, hay *học một mô hình (learning a model)*.
+- **Evaluation:** Cuối cùng, chúng tôi đánh giá chất lượng classifier bằng cách cho nó đoán nhãn của một hình ảnh mới mà nó chưa từng thấy trước đây. Chúng ta sẽ so sánh nhãn thực sự của bức ảnh và nhãn mà classifier dự đoán. Theo trực giác, chúng ta hy vọng sẽ có nhiều nhãn dự đoán trùng khớp với những nhãn thực sự (ground truth) (khái niệm *ground truth* hiểu đơn giản chính là nhãn/label/đầu ra thực sự của các điểm trong dữ liệu test).
 
 <a name='nn'></a>
 
