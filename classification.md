@@ -140,7 +140,7 @@ class NearestNeighbor(object):
 Nếu bạn chạy đoạn code này, bạn sẽ thấy trình phân loại này chỉ đạt **38.6%** trên CIFAR-10. Tỷ lệ tốt hơn so với việc đoán ngẫu nhiên (với 10 nhóm nếu đoán ngẫu nhiên thì tỷ lệ đoán đúng là 10%), nhưng vẫn còn kém hơn so với tỷ lệ mà con người dự đoán ([ước tính khoảng 94%](http://karpathy.github.io/2011/04/27/manually-classifying-cifar10/)) hoặc so với kỹ thuật tiên tiến Convolutional Neural Networks đạt được 95%, gần với độ chính xác như con người (xem [bảng xếp hạng](http://www.kaggle.com/c/cifar-10/leaderboard) của cuộc thi Kaggle trên CIFAR-10).
 
 **The choice of distance.** 
-Có rất nhiều cách để tính toán khoảng cách giữa các vector. Một sự lựa chọn phổ biến khác là **L2 distance**, nó chính là khoảng cách Euclid giữa 2 vector. Khoảng cách có dạng như sau:
+Có rất nhiều cách để tính toán khoảng cách giữa các vector. Một sự lựa chọn phổ biến khác là **L2 distance**, nó chính là khoảng cách Euclid giữa 2 vector. Khoảng cách Euclid được tính như sau:
 
 $$
 d_2 (I_1, I_2) = \sqrt{\sum_{p} \left( I^p_1 - I^p_2 \right)^2}
