@@ -70,22 +70,22 @@ Cách tiếp cận đầu tiên chúng ta sẽ tìm hiểu về **Nearest Neighb
   <div class="figcaption">Trái: Các ảnh ví dụ từ <a href="http://www.cs.toronto.edu/~kriz/cifar.html">bộ dữ liệu CIFAR-10</a>. Phải: cột đầu tiên hiển thị một vài ảnh thử nghiệm và các cột tiếp theo là 10 ảnh hàng xóm gần nhất (nearest neighbors) trong tập huấn luyện dựa theo sự khác biệt về pixel.</div>
 </div>
 
-Giả sử bây giờ chúng ta có tập huấn luyện CIFAR-10 bao gồm 50,000 hình ảnh (5,000 ảnh cho mỗi nhãn), và chúng ta muốn gán nhãn cho 10,000 bức ảnh còn lại. Nearest neighbor classifier sẽ lấy một ảnh trong tập thử nghiệm, so sánh nó với từng ảnh trong tập huấn luyện, và dựa vào ảnh huấn luyện sát nhất để dự đoán nhãn. In the image above and on the right you can see an example result of such a procedure for 10 example test images. Notice that in only about 3 out of 10 examples an image of the same class is retrieved, while in the other 7 examples this is not the case. For example, in the 8th row the nearest training image to the horse head is a red car, presumably due to the strong black background. As a result, this image of a horse would in this case be mislabeled as a car.
+Giả sử bây giờ chúng ta có tập huấn luyện CIFAR-10 bao gồm 50,000 hình ảnh (5,000 ảnh cho mỗi nhãn), và chúng ta muốn gán nhãn cho 10,000 bức ảnh còn lại. Nearest neighbor classifier sẽ lấy một ảnh trong tập thử nghiệm, so sánh nó với từng ảnh trong tập huấn luyện, và dựa vào ảnh huấn luyện sát nhất để dự đoán nhãn. Như ta thấy ở trên có thể thấy kết quả của 10 bức ảnh thử nghiệm. Chú ý rằng chỉ có 3 trong số 10 ví dụ, một hình ảnh của cùng một nhóm được tìm thấy, trong khi 7 ví dụ khác thì không như vậy. Ví dụ, ở hàng thứ 8 ảnh huấn luyện gần nhất với ảnh đầu con ngựa là một chiếc xe màu đỏ, có thể là do nền màu đen đã ảnh hưởng đến kết quả. Kết quả là, hình ảnh con ngựa trong trường hợp này đã bị nhầm lẫn sang một chiếc xe hơi.
 
-You may have noticed that we left unspecified the details of exactly how we compare two images, which in this case are just two blocks of 32 x 32 x 3. One of the simplest possibilities is to compare the images pixel by pixel and add up all the differences. In other words, given two images and representing them as vectors \\( I_1, I_2 \\) , a reasonable choice for comparing them might be the **L1 distance**:
+Bạn có thể thấy rằng chúng tôi đã không xác định một cách chi tiết cách mà chúng tôi so sánh hai bức ảnh, trong trường hợp này chỉ là 2 khối có kích thưóc 32 x 32 x 3. Một trong những khả năng đơn giản nhất là so sánh từng pixel của 2 bức ảnh và tìm tất cả sự khác nhau giữa hai bức ảnh. Nói cách khác, ta sẽ biểu diễn ảnh dưới dạng vector \\( I_1, I_2 \\) , một sự lựa chọn hợp lý để so sánh chúng là tính khoảng cách 2 vector đó **L1 distance**:
 
 $$
 d_1 (I_1, I_2) = \sum_{p} \left| I^p_1 - I^p_2 \right|
 $$
 
-Where the sum is taken over all pixels. Here is the procedure visualized:
+Tổng được tính qua tất cả các điểm ảnh, chúng ta có thể hình dung việc tính khoảng cách như hình dưới đây:
 
 <div class="fig figcenter fighighlight">
   <img src="/assets/nneg.jpeg">
-  <div class="figcaption">An example of using pixel-wise differences to compare two images with L1 distance (for one color channel in this example). Two images are subtracted elementwise and then all differences are added up to a single number. If two images are identical the result will be zero. But if the images are very different the result will be large.</div>
+  <div class="figcaption">Một ví dụ sử dụng phương pháp [pixel-wise](https://support.pcigeomatics.com/hc/en-us/article_attachments/202615176/image001.png) (so sánh từng cặp pixel ở vị trí tương ứng trên 2 ảnh) để so sánh 2 ảnh với khoảng cách L1 (trong ví dụ này ta chỉ xét trên một kênh màu trong 3 màu R, G, B). Chúng ta sẽ thực hiện từng phép trừ trên 2 pixel tương ứng trên hai ảnh và kết quả sẽ được lưu lại vào một block có cùng kích thước. Nếu hai ảnh giống nhau thì kết quả sẽ là 0. Còn nếu 2 ảnh rất khác nhau thì kết quả sẽ lớn.</div>
 </div>
 
-Let's also look at how we might implement the classifier in code. First, let's load the CIFAR-10 data into memory as 4 arrays: the training data/labels and the test data/labels. In the code below, `Xtr` (of size 50,000 x 32 x 32 x 3) holds all the images in the training set, and a corresponding 1-dimensional array `Ytr` (of length 50,000) holds the training labels (from 0 to 9):
+Chúng ta cũng sẽ tìm hiểu cách lập trình ra classifier. Đầu tiên, chúng ta tải dữ liệu CIFAR-10 và lưu vào trong 4 mảng: các nhãn huấn luyện, các dữ liệu huấn luyện, các nhãn kiểm thử, các dữ liệu kiểm thử. Như ở code dưới đây, `Xtr` (có kích thước 50,000 x 32 x 32 x 3) chứa toàn bộ ảnh trong tập huấn luyện, và tương ứng ta có mảng 1 chiều `Ytr` (độ dài 50,000) chứa toàn bộ nhãn huấng luyện (từ 0 tới 9):
 
 ```python
 Xtr, Ytr, Xte, Yte = load_CIFAR10('data/cifar10/') # a magic function we provide
@@ -94,7 +94,7 @@ Xtr_rows = Xtr.reshape(Xtr.shape[0], 32 * 32 * 3) # Xtr_rows becomes 50000 x 307
 Xte_rows = Xte.reshape(Xte.shape[0], 32 * 32 * 3) # Xte_rows becomes 10000 x 3072
 ```
 
-Now that we have all images stretched out as rows, here is how we could train and evaluate a classifier:
+Bây giờ chúng ta đã có tất cả hình theo hàng, và dưới đây sẽ là cách chúng ta huấn luyện và dự đoán một phân loại:
 
 ```python
 nn = NearestNeighbor() # create a Nearest Neighbor classifier class
@@ -105,7 +105,7 @@ Yte_predict = nn.predict(Xte_rows) # predict labels on the test images
 print 'accuracy: %f' % ( np.mean(Yte_predict == Yte) )
 ```
 
-Notice that as an evaluation criterion, it is common to use the **accuracy**, which measures the fraction of predictions that were correct. Notice that all classifiers we will build satisfy this one common API: they have a `train(X,y)` function that takes the data and the labels to learn from. Internally, the class should build some kind of model of the labels and how they can be predicted from the data. And then there is a `predict(X)` function, which takes new data and predicts the labels. Of course, we've left out the meat of things - the actual classifier itself. Here is an implementation of a simple Nearest Neighbor classifier with the L1 distance that satisfies this template:
+Lưu ý rằng theo tiêu chí đánh giá, phổ biến nhất là sử dụng **độ chính xác (accuracy)**, để đo độ chính xác của việc dự đoán. Lưu ý rằng tất cả các classifier chúng ta xây dựng sẽ đáp ứng một API chung: chúng bao gồm một hàm `train(X,y)` lấy dữ liệu và các nhãn để học. Bên trong classifier nên xây dựng một số loại mô hình nhãn và cách thức để có thể dự đoán từ dữ liệu. Và sau đó sẽ có một hàm `predict(X)`, nó sẽ lấy dữ liệu mới và dự đoán các nhãn:
 
 ```python
 import numpy as np
@@ -137,10 +137,10 @@ class NearestNeighbor(object):
     return Ypred
 ```
 
-If you ran this code, you would see that this classifier only achieves **38.6%** on CIFAR-10. That's more impressive than guessing at random (which would give 10% accuracy since there are 10 classes), but nowhere near human performance (which is [estimated at about 94%](http://karpathy.github.io/2011/04/27/manually-classifying-cifar10/)) or near state-of-the-art Convolutional Neural Networks that achieve about 95%, matching human accuracy (see the [leaderboard](http://www.kaggle.com/c/cifar-10/leaderboard) of a recent Kaggle competition on CIFAR-10).
+Nếu bạn chạy đoạn code này, bạn sẽ thấy trình phân loại này chỉ đạt **38.6%** trên CIFAR-10. Tỷ lệ tốt hơn so với việc đoán ngẫu nhiên (với 10 nhóm nếu đoán ngẫu nhiên thì tỷ lệ đoán đúng là 10%), nhưng vẫn còn kém hơn so với tỷ lệ mà con người dự đoán ([ước tính khoảng 94%](http://karpathy.github.io/2011/04/27/manually-classifying-cifar10/)) hoặc so với kỹ thuật tiên tiến Convolutional Neural Networks đạt được 95%, gần với độ chính xác như con người (xem [bảng xếp hạng](http://www.kaggle.com/c/cifar-10/leaderboard) của cuộc thi Kaggle trên CIFAR-10).
 
 **The choice of distance.** 
-There are many other ways of computing distances between vectors. Another common choice could be to instead use the **L2 distance**, which has the geometric interpretation of computing the euclidean distance between two vectors. The distance takes the form:
+Có rất nhiều cách để tính toán khoảng cách giữa các vector. Một sự lựa chọn phổ biến khác là **L2 distance**, nó chính là khoảng cách Euclid giữa 2 vector. Khoảng cách có dạng như sau:
 
 $$
 d_2 (I_1, I_2) = \sqrt{\sum_{p} \left( I^p_1 - I^p_2 \right)^2}
