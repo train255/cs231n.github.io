@@ -140,31 +140,31 @@ class NearestNeighbor(object):
 Nếu bạn chạy đoạn code này, bạn sẽ thấy trình phân loại này chỉ đạt **38.6%** trên CIFAR-10. Tỷ lệ tốt hơn so với việc đoán ngẫu nhiên (với 10 nhóm nếu đoán ngẫu nhiên thì tỷ lệ đoán đúng là 10%), nhưng vẫn còn kém hơn so với tỷ lệ mà con người dự đoán ([ước tính khoảng 94%](http://karpathy.github.io/2011/04/27/manually-classifying-cifar10/)) hoặc so với kỹ thuật tiên tiến Convolutional Neural Networks đạt được 95%, gần với độ chính xác như con người (xem [bảng xếp hạng](http://www.kaggle.com/c/cifar-10/leaderboard) của cuộc thi Kaggle trên CIFAR-10).
 
 **The choice of distance.** 
-Có rất nhiều cách để tính toán khoảng cách giữa các vector. Một sự lựa chọn phổ biến khác là **L2 distance**, nó chính là khoảng cách Euclid giữa 2 vector. Khoảng cách Euclid được tính như sau:
+Có rất nhiều cách để tính toán khoảng cách giữa các vector. Một sự lựa chọn phổ biến khác nữa là **L2 distance**, nó chính là khoảng cách Euclid giữa 2 vector. Khoảng cách Euclid được tính như sau:
 
 $$
 d_2 (I_1, I_2) = \sqrt{\sum_{p} \left( I^p_1 - I^p_2 \right)^2}
 $$
 
-In other words we would be computing the pixelwise difference as before, but this time we square all of them, add them up and finally take the square root. In numpy, using the code from above we would need to only replace a single line of code. The line that computes the distances:
+Nói cách khác chúng ta sẽ tính toán sự khác biệt pixel (pixelwise) như trước, nhưng lần này chúng ta sẽ tính bình phương của chúng, sau đó lấy căn bậc hai. Như trong đoạn code dưới đây ta sử dụng thư viện numpy:
 
 ```python
 distances = np.sqrt(np.sum(np.square(self.Xtr - X[i,:]), axis = 1))
 ```
 
-Note that I included the `np.sqrt` call above, but in a practical nearest neighbor application we could leave out the square root operation because square root is a *monotonic function*. That is, it scales the absolute sizes of the distances but it preserves the ordering, so the nearest neighbors with or without it are identical. If you ran the Nearest Neighbor classifier on CIFAR-10 with this distance, you would obtain **35.4%** accuracy (slightly lower than our L1 distance result).
+Lưu ý rằng tôi đã thêm `np.sqrt` ở trong đoạn code phía trên, nhưng trong thực tế với nearest neighbor chúng ta có thể bỏ phần căn bậc hai bởi vì nó là một *hàm đơn điệu (monotonic function)*. Nếu việc tính khoảng cách chỉ để phục vụ việc sắp xếp thì ta không cần đến bước căn bậc hai. Nếu bạn chạy đoạn code trên với CIFAR-10, bạn sẽ đạt được độ chính xác **35.4%** (thấp hơn một chút so với kết quả L1).
 
-**L1 vs. L2.** It is interesting to consider differences between the two metrics. In particular, the L2 distance is much more unforgiving than the L1 distance when it comes to differences between two vectors. That is, the L2 distance prefers many medium disagreements to one big one. L1 and L2 distances (or equivalently the L1/L2 norms of the differences between a pair of images) are the most commonly used special cases of a [p-norm](http://planetmath.org/vectorpnorm).
+**L1 vs. L2.** Có một điều thú vị khi xem xét sự khác nhau giữa hai metric này. Đặc biệt khoảng cách L2 cho tỷ lệ thấp hơn so với L1 khi so sánh khoảng cách hai vector. Khoảng cách L1 và L2 (hay các tiêu chuẩn (norm) L1, L2 về sự khác nhau giữa một cặp hình ảnh) là các trường hợp đặc biệt được sử dụng phổ biến nhất của [p-norm](http://planetmath.org/vectorpnorm).
 
 <a name='knn'></a>
 
 ### k - Nearest Neighbor Classifier
 
-You may have noticed that it is strange to only use the label of the nearest image when we wish to make a prediction. Indeed, it is almost always the case that one can do better by using what's called a **k-Nearest Neighbor Classifier**. The idea is very simple: instead of finding the single closest image in the training set, we will find the top **k** closest images, and have them vote on the label of the test image. In particular, when *k = 1*, we recover the Nearest Neighbor classifier. Intuitively, higher values of **k** have a smoothing effect that makes the classifier more resistant to outliers:
+Bạn có thể nhận thấy rằng thật lạ là chỉ sử dụng một nhãn gần với ảnh nhất khi chúng ta dự đoán. Thật vậy, gần như luôn có một cách để làm tốt hơn và trong trường hợp này ta có **k-Nearest Neighbor Classifier**. Ý tưởng rất đơn giản: thay vì tìm kiếm một ảnh gần nhất trong tập huấn luyện, chúng ta sẽ tìm top **k** các ảnh gần nhất, và chúng ta sẽ bỏ phiếu chọn ra nhãn của tập ảnh thử nghiệm. Với *k = 1*, ta sẽ quay trở lại bài toán Nearest Neighbor classifier. Với **k** càng cao thì sẽ giúp cho classifier bỏ được nhiều ngoại lệ:
 
 <div class="fig figcenter fighighlight">
   <img src="/assets/knn.jpeg">
-  <div class="figcaption">An example of the difference between Nearest Neighbor and a 5-Nearest Neighbor classifier, using 2-dimensional points and 3 classes (red, blue, green). The colored regions show the <b>decision boundaries</b> induced by the classifier with an L2 distance. The white regions show points that are ambiguously classified (i.e. class votes are tied for at least two classes). Notice that in the case of a NN classifier, outlier datapoints (e.g. green point in the middle of a cloud of blue points) create small islands of likely incorrect predictions, while the 5-NN classifier smooths over these irregularities, likely leading to better <b>generalization</b> on the test data (not shown). Also note that the gray regions in the 5-NN image are caused by ties in the votes among the nearest neighbors (e.g. 2 neighbors are red, next two neighbors are blue, last neighbor is green).</div>
+  <div class="figcaption">Một ví dụ về sự khác nhau giữa Nearest Neighbor và 5-Nearest Neighbor classifier, sử dụng mảng hai chiều và 3 lớp màu (red, blue, green). Các <b>vùng nền (decision boundaries)</b> thể hiện các điểm được phân loại vào lớp có màu tương ứng khi sử dụng khoảng cách L2. Các vùng màu trắng thể hiện các điểm phân loại không rõ ràng (ví dụ có ít nhất 2 nhãn có cùng số phiếu bầu). Lưu ý rằng trong trường hợp NN classifier, các điểm dữ liệu ngoại lệ (ví dụ điểm màu xanh lá nằm giữa một đám mấy các điểm màu xanh lục) tạo ra các hòn đào nhỏ có khả năng dự đoán sai, trong khi đó với 5-NN classifier nó sẽ làm trơn những phần này, làm cho <b>sự tổng quát hóa</b> dữ liệu được tốt hơn trên tập dữ liệu thử nghiệm. Cũng lưu ý rằng các vùng màu xám trong 5-NN được tạo ra bởi các liên kết trong phiếu bầu giữa các hàng xóm gần nhất (ví dụ 2 neighbor màu đỏ, tiếp đến là 2 neighbor màu xanh lục, cuối cùng là neighbor màu xanh lá).</div>
 </div>
 
 In practice, you will almost always want to use k-Nearest Neighbor. But what value of *k* should you use? We turn to this problem next.
