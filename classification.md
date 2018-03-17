@@ -205,7 +205,7 @@ for k in [1, 3, 5, 10, 20, 50, 100]:
   validation_accuracies.append((k, acc))
 ```
 
-By the end of this procedure, we could plot a graph that shows which values of *k* work best. We would then stick with this value and evaluate once on the actual test set.
+Khi kết thúc quá trình này, chúng ta có thể vẽ một đồ thị thể hiện giá trị mà *k* hoạt động tốt nhất. Sau đó chúng tôi sẽ gán giá trị này và đánh giá một lần trên tập kiểm thử thực tế.
 
 > Split your training set into training set and a validation set. Use validation set to tune all hyperparameters. At the end run a single time on the test set and report performance.
 
