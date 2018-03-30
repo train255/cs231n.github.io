@@ -53,7 +53,7 @@ Như chúng ta mô tả ở trên, một ConvNet đơn giản là một dãy cá
 
 - INPUT [32x32x3] sẽ chứa các giá trị pixel thô của ảnh, trong trường hợp này là một ảnh có kích thước width 32, height 32, và có 3 dải màu R,G,B.
 - [CONV layer](https://www.youtube.com/watch?v=RRieAsRs5hw) sẽ tính toán đầu ra của các neuron được kết nối với các vùng cục bộ của đầu vào, mỗi một điểm đầu ra là một phép tính tích chập giữa các trọng số của chúng và một vùng nhỏ chúng đưọc kết nối tới trong volume đầu vào. Kết quả ta có một volume chẳng hạn là [32x32x12] nếu chúng ta sử dụng 12 bộ lọc (filter).
-- RELU layer sẽ áp dụng một hàm kích hoạt theo từng phần tử, chẳng hạn \\(max(0,x)\\) với ngưỡng tại 0. Điều này có nghĩa là kích thước của volume không thay đổi ([32x32x12]).
+- RELU layer sẽ áp dụng một hàm kích hoạt theo từng phần tử, nó là hàm \\(max(0,x)\\) nghĩa là lấy giá trị lớn nhất giữa số 0 và phần tử x. Điều này có nghĩa là kích thước của volume không thay đổi ([32x32x12]).
 - POOL layer will perform a downsampling operation along the spatial dimensions (width, height), resulting in volume such as [16x16x12].
 - FC (i.e. fully-connected) layer will compute the class scores, resulting in volume of size [1x1x10], where each of the 10 numbers correspond to a class score, such as among the 10 categories of CIFAR-10. As with ordinary Neural Networks and as the name implies, each neuron in this layer will be connected to all the numbers in the previous volume.
 
