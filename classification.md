@@ -28,7 +28,7 @@ Bài giảng này nhằm giới thiệu về vấn đề phân loại hình ản
   <div class="figcaption">Nhiệm vụ của Image Classification là dự đoán một nhãn (hoặc như ở đây chúng ta hiển thị tỷ lệ phần trăm các nhãn) cho một bức ảnh. Ảnh là một mảng 3 chiều các số nguyên từ 0 đến 255 có kích thước là Width x Height x 3. Số 3 ở đây đại diện cho ba màu Red, Green, Blue.</div>
 </div>
 
-**Challenges**. Việc nhận dạng hình ảnh (chẳng hạn như ảnh mèo) đối với con người là một điều tầm thường, nhưng nó là thách thức trên quan điểm của một thuật toán Computer Vision. Khi chúng tôi trình bày danh sách các thách thức dưới đây, hãy nhớ rằng sự đại diện thô của hình ảnh giống như một mảng 3 chiều của các giá trị độ sáng:
+**Challenges**. Việc nhận dạng hình ảnh (chẳng hạn như ảnh mèo) đối với con người là một điều tầm thường, nhưng nó là thách thức trên quan điểm của một thuật toán Computer Vision. Khi chúng tôi trình bày danh sách các thách thức dưới đây, hãy nhớ rằng sự đại diện thô (raw representation) của hình ảnh giống như một mảng 3 chiều của các giá trị độ sáng:
 
 - **Viewpoint variation**. Một thể hiện của một đối tượng có thể được chụp từ nhiều góc nhìn khác nhau của máy ảnh.
 - **Scale variation**. Các nhóm (class) hình ảnh thường có sự khác biệt về kích cỡ.
