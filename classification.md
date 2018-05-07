@@ -38,7 +38,7 @@ Bài giảng này nhằm giới thiệu về vấn đề phân loại hình ản
 - **Background clutter**. Các đối tượng có thể bị trộn lẫn vào môi trường xung quanh làm cho chúng khó xác định.
 - **Intra-class variation**. Các nhóm hình ảnh có thể tương đối rộng, chẳng hạn như nhận dạng *ghế*. Có rất nhiều loại ghế và mỗi loại ghế lại có hình dạng khác nhau.
 
-Một model phân loại hình ảnh tốt phải không bị thay đổi với các biến thể nói trên, nhưng vẫn phải giữ được độ nhạy với các ảnh bình thường không thuộc các biến thể nói trên [inter-class variation](http://journals.plos.org/plosone/article/figure/image?size=medium&id=10.1371/journal.pone.0099212.g001).
+Một model phân loại hình ảnh tốt phải không bị thay đổi với các biến thể nói trên, nhưng vẫn phải giữ được độ nhạy với các ảnh bình thường không thuộc các biến thể [inter-class variation](http://journals.plos.org/plosone/article/figure/image?size=medium&id=10.1371/journal.pone.0099212.g001).
 
 <div class="fig figcenter fighighlight">
   <img src="/assets/challenges.jpeg">
