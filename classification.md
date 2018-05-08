@@ -228,7 +228,7 @@ Trong trường hợp dữ liệu huấn luyện của bạn (sẽ bao gồm d�
 
 <a name='procon'></a>
 
-**Pros and Cons of Nearest Neighbor classifier.**
+**Ưu và khuyết điểm của Nearest Neighbor.**
 
 It is worth considering some advantages and drawbacks of the Nearest Neighbor classifier. Clearly, one advantage is that it is very simple to implement and understand. Additionally, the classifier takes no time to train, since all that is required is to store and possibly index the training data. However, we pay that computational cost at test time, since classifying a test example requires a comparison to every single training example. This is backwards, since in practice we often care about the test time efficiency much more than the efficiency at training time. In fact, the deep neural networks we will develop later in this class shift this tradeoff to the other extreme: They are very expensive to train, but once the training is finished it is very cheap to classify a new test example. This mode of operation is much more desirable in practice.
 
